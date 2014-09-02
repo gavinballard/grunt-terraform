@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     terraform: {
       jade: {
         options: {
-          globals: {
+          data: {
             "sections": {
               "introduction": "Introduction",
               "content": "Content",

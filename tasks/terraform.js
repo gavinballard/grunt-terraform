@@ -15,9 +15,9 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('terraform', 'Compile assets using Harp\'s terraform pipeline.', function() {
 
-    // Set options, including `globals` (the template context).
+    // Set options, including `data` (the template context).
     var options = this.options({
-      globals: {}
+      data: {}
     });
 
     // Mark task as asynchronous.
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
           templateName  = path.basename(f.src[0]);
 
       // Instantiate the Terraform root.
-      var root = terraform.root(rootDirectory, options.globals);
+      var root = terraform.root(rootDirectory, options.data);
 
       // Render the template file and write to destination.
       root.render(templateName, {}, function(error, output) {
