@@ -1,0 +1,12 @@
+section
+    article.content
+        for section, anchor in sections
+            h2(id= anchor)= section
+            != partial('sections/' + anchor)
+
+    aside.sidebar
+        nav
+            ul.nav
+                for section, anchor in sections
+                    li
+                        a(href= '#' + anchor)= section

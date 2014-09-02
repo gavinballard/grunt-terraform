@@ -10,40 +10,43 @@
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  var terraform = require('terraform');
+  var path = require('path');
 
-  grunt.registerMultiTask('terraform', 'Compile assets using Harp's terraform pipeline.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
+  grunt.registerMultiTask('terraform', 'Compile assets using Harp\'s terraform pipeline.', function() {
+
+    // Set options, including `globals` (the template context).
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      globals: {}
     });
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+    // Mark task as asynchronous.
+    var async = grunt.util.async;
+    var done = this.async();
+
+    async.forEach(this.files, function(f, asyncCallback) {
+      grunt.log.writeln('File "' + f.src[0] + '" read.');
+
+      var rootDirectory = path.resolve(path.dirname(f.src[0])),
+          templateName  = path.basename(f.src[0]);
+
+      // Instantiate the Terraform root.
+      var root = terraform.root(rootDirectory, options.globals);
+
+      // Render the template file and write to destination.
+      root.render(templateName, {}, function(error, output) {
+        if(error) {
+          grunt.warn(f.src[0] + '\n' + error);
+          return asyncCallback(error);
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+        grunt.file.write(f.dest, output);
+        grunt.log.writeln('Compiled ' + f.dest);
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+        asyncCallback();
+      });
+    }, function(error) {
+      done(!error);
     });
   });
 
