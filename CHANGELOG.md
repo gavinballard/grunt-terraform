@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 No unreleased changes.
 
+## 0.3.0 - 2015-11-21
+### Changed
+- Updated terraform dependency to v0.13.2
+
 ## 0.2.0 - 2015-02-25
 ### Added
 - This new-format CHANGELOG, based on http://keepachangelog.com
