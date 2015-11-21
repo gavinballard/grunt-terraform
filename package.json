@@ -1,7 +1,7 @@
 {
   "name": "grunt-terraform",
   "description": "Compile assets using Harp's Terraform pipeline.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "",
   "author": {
     "name": "Gavin Ballard",
@@ -22,13 +22,13 @@
     }
   ],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "terraform": "~0.10.3"
+    "terraform": "~0.13.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.9.2",
