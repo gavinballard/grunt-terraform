@@ -1,7 +1,7 @@
 {
   "name": "grunt-terraform",
   "description": "Compile assets using Harp's Terraform pipeline.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "",
   "author": {
     "name": "Gavin Ballard",
